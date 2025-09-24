@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Camera, Loader2, Sparkles, Wand2, ChefHat } from 'lucide-react';
 import { recognizeIngredients } from '@/ai/flows/visual-ingredient-recognition';
@@ -13,7 +13,6 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSearchHistory } from '@/hooks/use-search-history';
-import { Separator } from './ui/separator';
 
 type IngredientSearchFormProps = {
   initialIngredients?: string;
@@ -28,38 +27,33 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
   const router = useRouter();
   const { toast } = useToast();
   const { addSearch } = useSearchHistory();
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isMounted) {
-      setIsSearching(true);
-      const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
+    setIsSearching(true);
+    const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
+    if (cleanedIngredients) {
       addSearch(cleanedIngredients);
-      const params = new URLSearchParams();
-      if (cleanedIngredients) {
-        params.set('ingredients', cleanedIngredients);
-      }
-      router.push(`/?${params.toString()}`);
     }
+    const params = new URLSearchParams();
+    if (cleanedIngredients) {
+      params.set('ingredients', cleanedIngredients);
+    }
+    router.push(`/?${params.toString()}`);
   };
   
   const handleGenerate = (e: React.FormEvent) => {
     e.preventDefault();
-    if (isMounted) {
-        setIsGenerating(true);
-        const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
-        addSearch(cleanedIngredients);
-        const params = new URLSearchParams();
-        if (cleanedIngredients) {
-            params.set('ingredients', cleanedIngredients);
-        }
-        router.push(`/generate?${params.toString()}`);
+    setIsGenerating(true);
+    const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
+    if (cleanedIngredients) {
+      addSearch(cleanedIngredients);
     }
+    const params = new URLSearchParams();
+    if (cleanedIngredients) {
+        params.set('ingredients', cleanedIngredients);
+    }
+    router.push(`/generate?${params.toString()}`);
   }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +102,7 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
     }
   };
 
-  const isActionDisabled = isSearching || isGenerating || !ingredients;
+  const isActionDisabled = isSearching || isGenerating || !ingredients.trim();
 
   return (
     <Card className="max-w-2xl mx-auto shadow-xl border-2 border-primary/20 -mt-12 md:-mt-20 z-10 relative">
