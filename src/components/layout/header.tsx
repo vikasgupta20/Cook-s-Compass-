@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Utensils, LogOut, User as UserIcon, LogIn, History, Heart } from 'lucide-react';
+import { Utensils, LogOut, User as UserIcon, LogIn, History, Heart, ChefHat } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import {

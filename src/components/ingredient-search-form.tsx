@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Loader2, Sparkles, Wand2 } from 'lucide-react';
+import { Camera, Loader2, Sparkles, Wand2, ChefHat } from 'lucide-react';
 import { recognizeIngredients } from '@/ai/flows/visual-ingredient-recognition';
 
 import { Button } from '@/components/ui/button';
@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
 import { useSearchHistory } from '@/hooks/use-search-history';
+import { Separator } from './ui/separator';
 
 type IngredientSearchFormProps = {
   initialIngredients?: string;
@@ -22,6 +23,7 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
   const [ingredients, setIngredients] = useState(initialIngredients);
   const [isRecognizing, setIsRecognizing] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
   const [activeTab, setActiveTab] = useState('text');
   const router = useRouter();
   const { toast } = useToast();
@@ -32,7 +34,7 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
     setIsMounted(true);
   }, []);
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (isMounted) {
       setIsSearching(true);
@@ -45,6 +47,20 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
       router.push(`/?${params.toString()}`);
     }
   };
+  
+  const handleGenerate = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (isMounted) {
+        setIsGenerating(true);
+        const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
+        addSearch(cleanedIngredients);
+        const params = new URLSearchParams();
+        if (cleanedIngredients) {
+            params.set('ingredients', cleanedIngredients);
+        }
+        router.push(`/generate?${params.toString()}`);
+    }
+  }
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -92,6 +108,8 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
     }
   };
 
+  const isActionDisabled = isSearching || isGenerating || !ingredients;
+
   return (
     <Card className="max-w-2xl mx-auto shadow-xl border-2 border-primary/20 -mt-12 md:-mt-20 z-10 relative">
       <CardContent className="p-0">
@@ -107,7 +125,7 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
             </TabsTrigger>
           </TabsList>
           <TabsContent value="text" className="p-6">
-            <form onSubmit={handleSearch} className="space-y-4">
+            <form className="space-y-4">
               <Textarea
                 placeholder="e.g., chicken, broccoli, rice"
                 value={ingredients}
@@ -115,13 +133,22 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
                 rows={4}
                 className="text-base"
               />
-              <Button type="submit" className="w-full text-lg h-12" disabled={isSearching || !ingredients}>
-                {isSearching ? (
-                  <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Searching...</>
-                ) : (
-                  'Find Recipes'
-                )}
-              </Button>
+              <div className='flex flex-col sm:flex-row gap-2'>
+                <Button onClick={handleSearch} className="w-full text-lg h-12" disabled={isActionDisabled}>
+                    {isSearching ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Searching...</>
+                    ) : (
+                    'Find Existing Recipes'
+                    )}
+                </Button>
+                <Button onClick={handleGenerate} variant="secondary" className="w-full text-lg h-12" disabled={isActionDisabled}>
+                    {isGenerating ? (
+                    <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating...</>
+                    ) : (
+                    <><ChefHat className="mr-2 h-5 w-5" /> Generate New Recipe</>
+                    )}
+                </Button>
+              </div>
             </form>
           </TabsContent>
           <TabsContent value="visual" className="p-6 text-center">
