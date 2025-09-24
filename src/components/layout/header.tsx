@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Utensils, LogOut, User as UserIcon, LogIn } from 'lucide-react';
+import { Utensils, LogOut, User as UserIcon, LogIn, History, LayoutGrid } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import {
@@ -27,16 +27,16 @@ export function Header() {
             PantryPal
           </span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm font-medium">
+        <nav className="flex items-center gap-4 text-sm font-medium">
           <Link
             href="/"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground transition-colors hover:text-foreground hidden sm:block"
           >
             Home
           </Link>
           <Link
             href="/favorites"
-            className="text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground transition-colors hover:text-foreground hidden sm:block"
           >
             Favorites
           </Link>
@@ -50,7 +50,7 @@ export function Header() {
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
                     <AvatarFallback>
-                      <UserIcon />
+                      <UserIcon className='h-5 w-5' />
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -64,6 +64,25 @@ export function Header() {
                     </p>
                   </div>
                 </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile">
+                    <UserIcon className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </Link>
+                </DropdownMenuItem>
+                 <DropdownMenuItem asChild>
+                  <Link href="/favorites">
+                    <LayoutGrid className="mr-2 h-4 w-4" />
+                    <span>My Favorites</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/history">
+                    <History className="mr-2 h-4 w-4" />
+                    <span>Search History</span>
+                  </Link>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={logout}>
                   <LogOut className="mr-2 h-4 w-4" />

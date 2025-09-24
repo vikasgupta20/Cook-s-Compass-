@@ -9,7 +9,7 @@ import {
   User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  updateProfile,
+  updateProfile as updateFirebaseAuthProfile,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
@@ -22,6 +22,7 @@ interface AuthContextType {
   signInWithEmail: (email: string, pass: string) => Promise<void>;
   signUpWithEmail: (email: string, pass: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (updates: { displayName?: string }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -75,13 +76,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
       
-      // You can set a display name here if you want
       const displayName = email.split('@')[0];
       if(auth.currentUser) {
-        await updateProfile(auth.currentUser, { displayName: displayName });
+        await updateFirebaseAuthProfile(auth.currentUser, { displayName: displayName });
       }
 
-      // To update the user state immediately after profile update
       setUser({ ...userCredential.user, displayName });
 
       toast({ title: 'Account created successfully!' });
@@ -118,9 +117,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     }
   };
+  
+  const updateProfile = async (updates: { displayName?: string }) => {
+    if (!auth.currentUser) return;
+    try {
+      await updateFirebaseAuthProfile(auth.currentUser, updates);
+      // Create a new user object with the updated info to trigger re-render
+      const updatedUser = { ...auth.currentUser, ...updates } as User;
+      setUser(updatedUser);
+      toast({ title: 'Profile updated!' });
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Update Failed',
+        description: 'Could not update your profile.',
+      });
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, logout }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, logout, updateProfile }}>
       {children}
     </AuthContext.Provider>
   );

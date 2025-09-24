@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Camera, Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { recognizeIngredients } from '@/ai/flows/visual-ingredient-recognition';
@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import { Card, CardContent } from '@/components/ui/card';
+import { useSearchHistory } from '@/hooks/use-search-history';
 
 type IngredientSearchFormProps = {
   initialIngredients?: string;
@@ -24,15 +25,25 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
   const [activeTab, setActiveTab] = useState('text');
   const router = useRouter();
   const { toast } = useToast();
+  const { addSearch } = useSearchHistory();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSearching(true);
-    const params = new URLSearchParams();
-    if (ingredients) {
-      params.set('ingredients', ingredients.trim().split(/\s*,\s*|\s+/).join(','));
+    if (isMounted) {
+      setIsSearching(true);
+      const cleanedIngredients = ingredients.trim().split(/\s*,\s*|\s+/).join(',');
+      addSearch(cleanedIngredients);
+      const params = new URLSearchParams();
+      if (cleanedIngredients) {
+        params.set('ingredients', cleanedIngredients);
+      }
+      router.push(`/?${params.toString()}`);
     }
-    router.push(`/?${params.toString()}`);
   };
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
