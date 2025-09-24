@@ -81,7 +81,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         await updateFirebaseAuthProfile(auth.currentUser, { displayName: displayName });
       }
 
-      setUser({ ...userCredential.user, displayName });
+      await userCredential.user.reload();
+      const freshUser = auth.currentUser;
+      setUser(freshUser);
 
       toast({ title: 'Account created successfully!' });
       router.push('/');
@@ -122,9 +124,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!auth.currentUser) return;
     try {
       await updateFirebaseAuthProfile(auth.currentUser, updates);
-      // Create a new user object with the updated info to trigger re-render
-      const updatedUser = { ...auth.currentUser, ...updates } as User;
-      setUser(updatedUser);
+      await auth.currentUser.reload();
+      const freshUser = auth.currentUser;
+      setUser(freshUser);
       toast({ title: 'Profile updated!' });
     } catch (error) {
       console.error('Error updating profile:', error);
