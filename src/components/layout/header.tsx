@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Utensils, LogOut, User as UserIcon, LogIn, History, LayoutGrid } from 'lucide-react';
+import { Utensils, LogOut, User as UserIcon, LogIn, History, Heart } from 'lucide-react';
 import { useAuth } from '@/hooks/use-auth';
 import { Button } from '@/components/ui/button';
 import {
@@ -20,34 +20,29 @@ export function Header() {
 
   return (
     <header className="bg-background/80 backdrop-blur-sm border-b sticky top-0 z-40">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Utensils className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold font-headline text-foreground">
+          <Utensils className="h-7 w-7 text-primary" />
+          <span className="text-2xl font-bold font-headline text-foreground">
             PantryPal
           </span>
         </Link>
-        <nav className="flex items-center gap-4 text-sm font-medium">
-          <Link
-            href="/"
-            className="text-muted-foreground transition-colors hover:text-foreground hidden sm:block"
-          >
-            Home
-          </Link>
-          <Link
-            href="/favorites"
-            className="text-muted-foreground transition-colors hover:text-foreground hidden sm:block"
-          >
-            Favorites
-          </Link>
+        <nav className="flex items-center gap-2 sm:gap-4 text-sm font-medium">
+          <Button variant="ghost" asChild className="hidden sm:inline-flex">
+            <Link href="/">Home</Link>
+          </Button>
+          <Button variant="ghost" asChild className="hidden sm:inline-flex">
+            <Link href="/favorites">Favorites</Link>
+          </Button>
+
 
           {loading ? (
-            <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-10 w-24" />
           ) : user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
+                <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                  <Avatar className="h-10 w-10 border-2 border-primary/50">
                     <AvatarImage src={user.photoURL || ''} alt={user.displayName || 'User'} />
                     <AvatarFallback>
                       <UserIcon className='h-5 w-5' />
@@ -73,7 +68,7 @@ export function Header() {
                 </DropdownMenuItem>
                  <DropdownMenuItem asChild>
                   <Link href="/favorites">
-                    <LayoutGrid className="mr-2 h-4 w-4" />
+                    <Heart className="mr-2 h-4 w-4" />
                     <span>My Favorites</span>
                   </Link>
                 </DropdownMenuItem>
@@ -94,7 +89,7 @@ export function Header() {
             <Button asChild>
               <Link href="/login">
                 <LogIn className="mr-2 h-4 w-4" />
-                Login
+                Login / Sign Up
               </Link>
             </Button>
           )}

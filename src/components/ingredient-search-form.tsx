@@ -93,15 +93,15 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
   };
 
   return (
-    <Card className="max-w-2xl mx-auto shadow-lg">
+    <Card className="max-w-2xl mx-auto shadow-xl border-2 border-primary/20 -mt-12 md:-mt-20 z-10 relative">
       <CardContent className="p-0">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 rounded-t-lg rounded-b-none h-12">
-            <TabsTrigger value="text" className="h-full">
+          <TabsList className="grid w-full grid-cols-2 rounded-t-lg rounded-b-none h-14 bg-secondary/50">
+            <TabsTrigger value="text" className="h-full text-base">
               <Wand2 className="mr-2 h-5 w-5" />
               Type Ingredients
             </TabsTrigger>
-            <TabsTrigger value="visual" className="h-full">
+            <TabsTrigger value="visual" className="h-full text-base">
               <Camera className="mr-2 h-5 w-5" />
               Use Photo
             </TabsTrigger>
@@ -115,7 +115,7 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
                 rows={4}
                 className="text-base"
               />
-              <Button type="submit" className="w-full" disabled={isSearching || !ingredients}>
+              <Button type="submit" className="w-full text-lg h-12" disabled={isSearching || !ingredients}>
                 {isSearching ? (
                   <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Searching...</>
                 ) : (
@@ -130,12 +130,12 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
                 {isRecognizing ? (
                   <div className="flex flex-col items-center gap-2">
                     <Loader2 className="h-8 w-8 animate-spin text-primary" />
-                    <span className="font-semibold">Analyzing your photo...</span>
+                    <span className="font-semibold text-lg">Analyzing your photo...</span>
                   </div>
                 ) : (
                   <div className="flex flex-col items-center gap-2">
                     <Sparkles className="h-8 w-8 text-accent" />
-                    <span className="font-semibold">Upload a photo of your ingredients</span>
+                    <span className="font-semibold text-lg">Upload a photo of your ingredients</span>
                     <span className="text-sm text-muted-foreground">Click here to select an image</span>
                   </div>
                 )}

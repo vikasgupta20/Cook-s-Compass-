@@ -89,14 +89,14 @@ export function LoginPage() {
   }
 
   return (
-    <div className="flex justify-center items-center py-12 md:py-20">
-      <Card className="w-full max-w-md">
+    <div className="flex justify-center items-center py-12 md:py-20 px-4">
+      <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-headline">
+          <CardTitle className="text-3xl font-headline">
             Welcome to PantryPal
           </CardTitle>
           <CardDescription>
-            Sign in or create an account to continue
+            Sign in or create an account to get started
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -185,9 +185,8 @@ export function LoginPage() {
           </Tabs>
 
           <div className="relative my-6">
-            <Separator />
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full" />
+                <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">

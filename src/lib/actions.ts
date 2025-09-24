@@ -48,7 +48,7 @@ export async function searchRecipes(ingredients: string): Promise<{ data: Recipe
   return fetchSpoonacular<RecipeSearchResult[]>('/recipes/findByIngredients', {
     ingredients,
     number: '12',
-    ranking: '1',
+    ranking: '2', // Prioritize recipes with fewer missing ingredients
     ignorePantry: 'true',
   });
 }

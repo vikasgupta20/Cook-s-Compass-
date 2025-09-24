@@ -68,9 +68,9 @@ export function ChefBot({ recipe }: ChefBotProps) {
   };
 
   return (
-    <Card className="sticky top-24 shadow-lg">
+    <Card className="sticky top-24 shadow-lg bg-secondary/30">
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-headline">
+        <CardTitle className="flex items-center gap-2 font-headline text-2xl">
           <Wand2 className="text-primary" />
           ChefBot Assistant
         </CardTitle>
@@ -79,26 +79,26 @@ export function ChefBot({ recipe }: ChefBotProps) {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <ScrollArea className="h-64 pr-4 border rounded-lg p-4">
-          {messages.length === 0 ? (
-            <div className="text-center text-sm text-muted-foreground h-full flex items-center justify-center">
-              e.g., "What can I use instead of flour?"
-            </div>
-          ) : (
-            <div className="space-y-4">
+        <ScrollArea className="h-72 pr-4">
+           <div className="space-y-4">
+              {messages.length === 0 && (
+                <div className="text-center text-sm text-muted-foreground p-4 bg-background/50 rounded-lg">
+                  e.g., "What can I use instead of flour?"
+                </div>
+              )}
               {messages.map((message, index) => (
                 <div
                   key={index}
                   className={cn('flex items-start gap-3', message.role === 'user' ? 'justify-end' : 'justify-start')}
                 >
                     {message.role === 'assistant' && (
-                        <Avatar className="h-8 w-8">
-                            <AvatarFallback><Wand2/></AvatarFallback>
+                        <Avatar className="h-8 w-8 bg-primary/20 border-2 border-primary/50">
+                            <AvatarFallback className="bg-transparent"><Wand2 className="text-primary"/></AvatarFallback>
                         </Avatar>
                     )}
                   <div className={cn(
                     'p-3 rounded-lg max-w-[80%]',
-                    message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'
+                    message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-background shadow-sm'
                   )}>
                     <p className="text-sm">{message.content}</p>
                   </div>
@@ -111,16 +111,15 @@ export function ChefBot({ recipe }: ChefBotProps) {
               ))}
               {isLoading && (
                   <div className="flex items-start gap-3 justify-start">
-                    <Avatar className="h-8 w-8">
-                        <AvatarFallback><Wand2/></AvatarFallback>
+                    <Avatar className="h-8 w-8 bg-primary/20 border-2 border-primary/50">
+                        <AvatarFallback className="bg-transparent"><Wand2 className="text-primary"/></AvatarFallback>
                     </Avatar>
-                    <div className="p-3 rounded-lg bg-muted">
-                        <Loader2 className="h-5 w-5 animate-spin" />
+                    <div className="p-3 rounded-lg bg-background shadow-sm">
+                        <Loader2 className="h-5 w-5 animate-spin text-primary" />
                     </div>
                   </div>
               )}
             </div>
-          )}
         </ScrollArea>
       </CardContent>
       <CardFooter>

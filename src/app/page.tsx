@@ -3,6 +3,7 @@ import { IngredientSearchForm } from '@/components/ingredient-search-form';
 import { RecipeList } from '@/components/recipe-list';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UtensilsCrossed } from 'lucide-react';
+import Image from 'next/image';
 
 type HomePageProps = {
   searchParams: { [key: string]: string | string[] | undefined };
@@ -14,8 +15,14 @@ export default async function Home({ searchParams }: HomePageProps) {
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
-      <section className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-bold font-headline mb-4 text-foreground">
+      <section className="relative text-center mb-12 bg-secondary/50 rounded-xl p-8 md:p-16 overflow-hidden">
+        <div className="absolute -bottom-12 -left-12 opacity-10">
+          <UtensilsCrossed size={200} className="transform -rotate-12" />
+        </div>
+        <div className="absolute -top-12 -right-12 opacity-10">
+          <UtensilsCrossed size={200} className="transform rotate-12" />
+        </div>
+        <h1 className="text-4xl md:text-6xl font-bold font-headline mb-4 text-foreground">
           What's in your pantry?
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
