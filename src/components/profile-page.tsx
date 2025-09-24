@@ -42,6 +42,11 @@ export function ProfilePage() {
     formState: { errors },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileSchema),
+    defaultValues: {
+      displayName: '',
+      age: null,
+      gender: null,
+    },
   });
 
   useEffect(() => {
@@ -179,7 +184,7 @@ export function ProfilePage() {
                 name="gender"
                 control={control}
                 render={({ field }) => (
-                  <Select onValueChange={field.onChange} value={field.value || ''}>
+                  <Select onValueChange={field.onChange} value={field.value ?? ''}>
                     <SelectTrigger>
                       <SelectValue placeholder="Select your gender" />
                     </SelectTrigger>
@@ -187,7 +192,6 @@ export function ProfilePage() {
                       <SelectItem value="male">Male</SelectItem>
                       <SelectItem value="female">Female</SelectItem>
                       <SelectItem value="other">Other</SelectItem>
-
                       <SelectItem value="prefer-not-to-say">Prefer not to say</SelectItem>
                     </SelectContent>
                   </Select>
