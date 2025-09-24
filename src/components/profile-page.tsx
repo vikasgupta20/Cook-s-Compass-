@@ -49,48 +49,46 @@ export function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!authLoading && !user) {
+    if (authLoading) {
+      return;
+    }
+    if (!user) {
       router.push('/login');
+      return;
     }
-  }, [user, authLoading, router]);
 
-  useEffect(() => {
-    if (user) {
-      const fetchProfile = async () => {
-        try {
-          const docRef = doc(db, 'profiles', user.uid);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const profileData = docSnap.data() as UserProfile;
-            reset({
-              displayName: user.displayName || '',
-              age: profileData.age,
-              gender: profileData.gender,
-            });
-          } else {
-            reset({
-              displayName: user.displayName || '',
-              age: null,
-              gender: null,
-            });
-          }
-        } catch (error) {
-          console.error("Error fetching profile:", error);
-          toast({
-            variant: 'destructive',
-            title: 'Error',
-            description: 'Could not load your profile. Please try again later.'
-          })
-        } finally {
-          setIsLoading(false);
+    const fetchProfile = async () => {
+      try {
+        const docRef = doc(db, 'profiles', user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const profileData = docSnap.data() as UserProfile;
+          reset({
+            displayName: user.displayName || '',
+            age: profileData.age,
+            gender: profileData.gender,
+          });
+        } else {
+          reset({
+            displayName: user.displayName || '',
+            age: null,
+            gender: null,
+          });
         }
-      };
-      fetchProfile();
-    } else if (!authLoading) {
-      // If there's no user and we're not loading, stop the loading spinner.
-      setIsLoading(false);
-    }
-  }, [user, authLoading, reset, toast]);
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+        toast({
+          variant: 'destructive',
+          title: 'Error',
+          description: 'Could not load your profile. Please try again later.'
+        })
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProfile();
+  }, [user, authLoading, router, reset, toast]);
 
   const onSubmit = async (data: ProfileFormData) => {
     if (!user) return;
@@ -105,7 +103,7 @@ export function ProfilePage() {
       await setDoc(doc(db, 'profiles', user.uid), profileData, { merge: true });
 
       if (user.displayName !== data.displayName) {
-        updateAuthProfile({ displayName: data.displayName });
+        await updateAuthProfile({ displayName: data.displayName });
       }
 
       toast({
@@ -124,7 +122,7 @@ export function ProfilePage() {
     }
   };
 
-  if (authLoading || isLoading) {
+  if (isLoading) {
     return (
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="max-w-2xl mx-auto">
