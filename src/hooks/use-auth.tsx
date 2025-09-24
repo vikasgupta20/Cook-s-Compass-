@@ -1,7 +1,16 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider, signOut, User } from 'firebase/auth';
+import { 
+  onAuthStateChanged, 
+  signInWithPopup, 
+  GoogleAuthProvider, 
+  signOut, 
+  User,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from 'firebase/auth';
 import { auth } from '@/lib/firebase';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -10,6 +19,8 @@ interface AuthContextType {
   user: User | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  signInWithEmail: (email: string, pass: string) => Promise<void>;
+  signUpWithEmail: (email: string, pass: string) => Promise<void>;
   logout: () => Promise<void>;
 }
 
@@ -45,6 +56,54 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const signInWithEmail = async (email: string, pass: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, pass);
+      toast({ title: 'Signed in successfully!' });
+      router.push('/');
+    } catch (error) {
+      console.error('Error signing in with email:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Sign in failed',
+        description: 'Invalid email or password. Please try again.',
+      });
+    }
+  };
+
+  const signUpWithEmail = async (email: string, pass: string) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+      
+      // You can set a display name here if you want
+      const displayName = email.split('@')[0];
+      if(auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName: displayName });
+      }
+
+      // To update the user state immediately after profile update
+      setUser({ ...userCredential.user, displayName });
+
+      toast({ title: 'Account created successfully!' });
+      router.push('/');
+
+    } catch (error) {
+      console.error('Error signing up with email:', error);
+      let description = 'Could not create account. Please try again.';
+      if (error instanceof Error && 'code' in error) {
+        const firebaseError = error as { code: string };
+        if(firebaseError.code === 'auth/email-already-in-use') {
+            description = 'This email is already in use. Please sign in or use a different email.';
+        }
+      }
+      toast({
+        variant: 'destructive',
+        title: 'Sign up failed',
+        description,
+      });
+    }
+  };
+
   const logout = async () => {
     try {
       await signOut(auth);
@@ -61,7 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithGoogle, logout }}>
+    <AuthContext.Provider value={{ user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, logout }}>
       {children}
     </AuthContext.Provider>
   );
