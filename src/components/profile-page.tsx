@@ -32,7 +32,6 @@ export function ProfilePage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
 
   const {
     register,
@@ -50,19 +49,14 @@ export function ProfilePage() {
   });
 
   useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (!authLoading && !user && isMounted) {
+    if (!authLoading && !user) {
       router.push('/login');
     }
-  }, [user, authLoading, router, isMounted]);
+  }, [user, authLoading, router]);
 
   useEffect(() => {
-    if (user && isMounted) {
+    if (user) {
       const fetchProfile = async () => {
-        setIsLoading(true);
         try {
           const docRef = doc(db, 'profiles', user.uid);
           const docSnap = await getDoc(docRef);
@@ -92,8 +86,11 @@ export function ProfilePage() {
         }
       };
       fetchProfile();
+    } else if (!authLoading) {
+      // If there's no user and we're not loading, stop the loading spinner.
+      setIsLoading(false);
     }
-  }, [user, reset, isMounted, toast]);
+  }, [user, authLoading, reset, toast]);
 
   const onSubmit = async (data: ProfileFormData) => {
     if (!user) return;
@@ -108,7 +105,6 @@ export function ProfilePage() {
       await setDoc(doc(db, 'profiles', user.uid), profileData, { merge: true });
 
       if (user.displayName !== data.displayName) {
-        // Don't await this, let it run in the background
         updateAuthProfile({ displayName: data.displayName });
       }
 
