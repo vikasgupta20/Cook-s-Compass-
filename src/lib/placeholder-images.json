@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "generic-food",
+      "description": "A generic placeholder for food when no other image is available.",
+      "imageUrl": "https://images.unsplash.com/photo-1540432797114-187727adf19b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmb29kJTIwcGxhdGV8ZW58MHx8fHwxNzU4NTg2MjMwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "food plate"
+    }
+  ]
 }
