@@ -5,13 +5,11 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { UtensilsCrossed } from 'lucide-react';
 
 type HomePageProps = {
-  searchParams: {
-    ingredients?: string;
-  };
+  searchParams: { [key: string]: string | string[] | undefined };
 };
 
 export default async function Home({ searchParams }: HomePageProps) {
-  const ingredients = searchParams.ingredients || '';
+  const ingredients = typeof searchParams.ingredients === 'string' ? searchParams.ingredients : '';
   const { data: recipes, error } = ingredients ? await searchRecipes(ingredients) : { data: null, error: null };
 
   return (
