@@ -89,7 +89,7 @@ export function GeneratedRecipeClient() {
             
             <p className="text-lg text-muted-foreground mb-6 max-w-3xl">{recipe.description}</p>
             
-            <Card className="mb-8 bg-secondary/50 shadow-sm">
+            <Card className="mb-8 bg-card shadow-sm">
                 <CardContent className="p-6 flex items-center justify-around text-center">
                     <div className="flex flex-col items-center gap-1">
                         <Clock className="h-7 w-7 text-primary" />

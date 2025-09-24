@@ -47,7 +47,7 @@ export function NutritionInfo({ nutrition }: NutritionInfoProps) {
   }
 
   return (
-    <Card className="mb-8 bg-secondary/30">
+    <Card className="mb-8 bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline text-2xl">
           <Leaf className="text-primary" />
@@ -60,15 +60,15 @@ export function NutritionInfo({ nutrition }: NutritionInfoProps) {
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
             <div className="grid grid-cols-3 gap-2 text-center">
-                <div className='p-2 rounded-lg bg-background/50'>
+                <div className='p-2 rounded-lg bg-background'>
                     <p className="font-bold text-lg">{protein ? `${Math.round(protein.amount)}g` : 'N/A'}</p>
                     <p className="text-xs text-muted-foreground">Protein</p>
                 </div>
-                <div className='p-2 rounded-lg bg-background/50'>
+                <div className='p-2 rounded-lg bg-background'>
                     <p className="font-bold text-lg">{fat ? `${Math.round(fat.amount)}g` : 'N/A'}</p>
                     <p className="text-xs text-muted-foreground">Fat</p>
                 </div>
-                <div className='p-2 rounded-lg bg-background/50'>
+                <div className='p-2 rounded-lg bg-background'>
                     <p className="font-bold text-lg">{carbs ? `${Math.round(carbs.amount)}g` : 'N/A'}</p>
                     <p className="text-xs text-muted-foreground">Carbs</p>
                 </div>

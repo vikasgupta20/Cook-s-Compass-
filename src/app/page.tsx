@@ -15,19 +15,18 @@ export default async function Home({ searchParams }: HomePageProps) {
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
-      <section className="relative text-center mb-12 bg-secondary/50 rounded-xl p-8 md:p-16 overflow-hidden">
-        <div className="absolute -bottom-12 -left-12 opacity-10">
+      <section className="relative text-center mb-12 bg-card rounded-xl p-8 md:p-16 overflow-hidden">
+        <div className="absolute -bottom-12 -left-12 opacity-5 text-primary/50">
           <UtensilsCrossed size={200} className="transform -rotate-12" />
         </div>
-        <div className="absolute -top-12 -right-12 opacity-10">
+        <div className="absolute -top-12 -right-12 opacity-5 text-primary/50">
           <UtensilsCrossed size={200} className="transform rotate-12" />
         </div>
         <h1 className="text-4xl md:text-6xl font-bold font-headline mb-4 text-foreground">
-          What's in your pantry?
+          Your Culinary Adventure Starts Here
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Enter the ingredients you have, and we'll find delicious recipes for
-          you. Or, snap a photo and let our AI do the work!
+          Enter ingredients, snap a photo, or generate a new recipe with AI. What will you create today?
         </p>
       </section>
 

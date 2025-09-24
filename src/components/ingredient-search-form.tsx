@@ -105,10 +105,10 @@ export function IngredientSearchForm({ initialIngredients = '' }: IngredientSear
   const isActionDisabled = isSearching || isGenerating || !ingredients.trim();
 
   return (
-    <Card className="max-w-2xl mx-auto shadow-xl border-2 border-primary/20 -mt-12 md:-mt-20 z-10 relative">
+    <Card className="max-w-2xl mx-auto shadow-xl border-2 border-primary/10 -mt-16 md:-mt-24 z-10 relative">
       <CardContent className="p-0">
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-2 rounded-t-lg rounded-b-none h-14 bg-secondary/50">
+          <TabsList className="grid w-full grid-cols-2 rounded-t-lg rounded-b-none h-14 bg-secondary">
             <TabsTrigger value="text" className="h-full text-base">
               <Wand2 className="mr-2 h-5 w-5" />
               Type Ingredients

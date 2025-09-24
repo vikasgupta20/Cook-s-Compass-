@@ -21,11 +21,11 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
                 alt={recipe.title}
                 width={800}
                 height={500}
-                className="w-full rounded-lg object-cover aspect-[16/10] shadow-2xl"
+                className="w-full rounded-lg object-cover aspect-[16/10] shadow-lg"
                 priority
                 data-ai-hint="food photography"
             />
-            <div className="absolute top-4 right-4 bg-background/50 backdrop-blur-sm rounded-full">
+            <div className="absolute top-4 right-4 bg-background/70 backdrop-blur-sm rounded-full">
                 <FavoriteButton recipe={recipe} />
             </div>
         </div>
@@ -37,7 +37,7 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
           dangerouslySetInnerHTML={{ __html: recipe.summary }}
         />
 
-        <Card className="mb-8 bg-secondary/50 shadow-sm">
+        <Card className="mb-8 bg-card shadow-sm">
             <CardContent className="p-6 flex items-center justify-around text-center">
                 <div className="flex flex-col items-center gap-1">
                     <Clock className="h-7 w-7 text-primary" />

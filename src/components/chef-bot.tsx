@@ -68,7 +68,7 @@ export function ChefBot({ recipe }: ChefBotProps) {
   };
 
   return (
-    <Card className="sticky top-24 shadow-lg bg-secondary/30">
+    <Card className="sticky top-24 shadow-lg bg-card">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-headline text-2xl">
           <Wand2 className="text-primary" />
@@ -82,7 +82,7 @@ export function ChefBot({ recipe }: ChefBotProps) {
         <ScrollArea className="h-72 pr-4">
            <div className="space-y-4">
               {messages.length === 0 && (
-                <div className="text-center text-sm text-muted-foreground p-4 bg-background/50 rounded-lg">
+                <div className="text-center text-sm text-muted-foreground p-4 bg-background rounded-lg">
                   e.g., "What can I use instead of flour?"
                 </div>
               )}
