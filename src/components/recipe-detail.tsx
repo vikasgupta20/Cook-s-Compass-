@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { Clock, Users, Circle } from 'lucide-react';
+import { Clock, Users, Circle, Leaf } from 'lucide-react';
 import type { RecipeDetails } from '@/lib/types';
 import { Card, CardContent } from '@/components/ui/card';
 import { FavoriteButton } from './favorite-button';
-import { Separator } from '@/components/ui/separator';
+import { NutritionInfo } from './nutrition-info';
 
 type RecipeDetailProps = {
   recipe: RecipeDetails;
@@ -52,7 +52,9 @@ export function RecipeDetail({ recipe }: RecipeDetailProps) {
             </CardContent>
         </Card>
 
-        <div className="grid md:grid-cols-5 gap-8 lg:gap-12">
+        {recipe.nutrition && <NutritionInfo nutrition={recipe.nutrition} />}
+
+        <div className="grid md:grid-cols-5 gap-8 lg:gap-12 mt-8">
             <div className="md:col-span-2">
                 <h2 className="text-3xl font-headline font-semibold mb-4">Ingredients</h2>
                 <ul className="space-y-3">

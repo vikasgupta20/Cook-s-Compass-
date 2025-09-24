@@ -48,7 +48,7 @@ export async function searchRecipes(ingredients: string): Promise<{ data: Recipe
   return fetchSpoonacular<RecipeSearchResult[]>('/recipes/findByIngredients', {
     ingredients,
     number: '12',
-    ranking: '2', // Prioritize recipes with fewer missing ingredients
+    ranking: '1', // Prioritize recipes that use more of the provided ingredients.
     ignorePantry: 'true',
   });
 }
@@ -56,6 +56,6 @@ export async function searchRecipes(ingredients: string): Promise<{ data: Recipe
 export async function getRecipeDetails(id: number): Promise<{ data: RecipeDetails | null; error: string | null }> {
   const path = `/recipes/${id}/information`;
   return fetchSpoonacular<RecipeDetails>(path, {
-    includeNutrition: 'false',
+    includeNutrition: 'true',
   });
 }

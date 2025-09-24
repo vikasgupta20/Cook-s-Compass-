@@ -35,6 +35,7 @@ export interface RecipeDetails {
   summary: string;
   extendedIngredients: Ingredient[];
   analyzedInstructions: AnalyzedInstruction[];
+  nutrition?: Nutrition;
 }
 
 export interface AnalyzedInstruction {
@@ -53,4 +54,23 @@ export interface UserProfile {
   displayName: string | null;
   age: number | null;
   gender: 'male' | 'female' | 'other' | 'prefer-not-to-say' | null;
+}
+
+// Nutrition Types
+export interface Nutrition {
+  nutrients: Nutrient[];
+  caloricBreakdown: CaloricBreakdown;
+}
+
+export interface Nutrient {
+  name: string;
+  amount: number;
+  unit: string;
+  percentOfDailyNeeds?: number;
+}
+
+export interface CaloricBreakdown {
+  percentProtein: number;
+  percentFat: number;
+  percentCarbs: number;
 }
