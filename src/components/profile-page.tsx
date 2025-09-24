@@ -32,6 +32,7 @@ export function ProfilePage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   const {
     register,
@@ -44,36 +45,50 @@ export function ProfilePage() {
   });
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login');
-    }
-  }, [user, authLoading, router]);
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
-    if (user) {
+    if (!authLoading && !user && isMounted) {
+      router.push('/login');
+    }
+  }, [user, authLoading, router, isMounted]);
+
+  useEffect(() => {
+    if (user && isMounted) {
       const fetchProfile = async () => {
         setIsLoading(true);
-        const docRef = doc(db, 'profiles', user.uid);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const profileData = docSnap.data() as UserProfile;
-          reset({
-            displayName: user.displayName || '',
-            age: profileData.age,
-            gender: profileData.gender,
-          });
-        } else {
-          reset({
-            displayName: user.displayName || '',
-            age: null,
-            gender: null,
-          });
+        try {
+          const docRef = doc(db, 'profiles', user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const profileData = docSnap.data() as UserProfile;
+            reset({
+              displayName: user.displayName || '',
+              age: profileData.age,
+              gender: profileData.gender,
+            });
+          } else {
+            reset({
+              displayName: user.displayName || '',
+              age: null,
+              gender: null,
+            });
+          }
+        } catch (error) {
+          console.error("Error fetching profile:", error);
+          toast({
+            variant: 'destructive',
+            title: 'Error',
+            description: 'Could not load your profile. Please try again later.'
+          })
+        } finally {
+          setIsLoading(false);
         }
-        setIsLoading(false);
       };
       fetchProfile();
     }
-  }, [user, reset]);
+  }, [user, reset, isMounted, toast]);
 
   const onSubmit = async (data: ProfileFormData) => {
     if (!user) return;
