@@ -108,7 +108,8 @@ export function ProfilePage() {
       await setDoc(doc(db, 'profiles', user.uid), profileData, { merge: true });
 
       if (user.displayName !== data.displayName) {
-        await updateAuthProfile({ displayName: data.displayName });
+        // Don't await this, let it run in the background
+        updateAuthProfile({ displayName: data.displayName });
       }
 
       toast({
