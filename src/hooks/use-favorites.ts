@@ -6,7 +6,7 @@ import { useToast } from './use-toast';
 
 type FavoriteRecipe = Pick<RecipeSearchResult, 'id' | 'title' | 'image'>;
 
-const FAVORITES_KEY = 'pantrypal_favorites';
+const FAVORITES_KEY = 'cookscompass_favorites';
 
 export function useFavorites() {
   const [favorites, setFavorites] = useState<FavoriteRecipe[]>([]);

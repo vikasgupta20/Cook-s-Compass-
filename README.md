@@ -1,6 +1,6 @@
-# PantryPal
+# Cook's Compass
 
-Welcome to PantryPal, a web application that helps you find recipes based on the ingredients you have on hand.
+Welcome to Cook's Compass, a web application that helps you find recipes based on the ingredients you have on hand.
 
 ## Features
 
@@ -26,7 +26,7 @@ Follow these steps to get the project up and running on your local machine.
     ```
 2.  Navigate to the project directory:
     ```bash
-    cd pantry-pal
+    cd cooks-compass
     ```
 3.  Install the dependencies:
     ```bash
@@ -54,3 +54,4 @@ npm run dev
 ```
 
 Open [http://localhost:9002](http://localhost:9002) with your browser to see the result.
+

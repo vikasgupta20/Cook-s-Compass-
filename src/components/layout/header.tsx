@@ -24,7 +24,7 @@ export function Header() {
         <Link href="/" className="flex items-center gap-2">
           <Utensils className="h-7 w-7 text-primary" />
           <span className="text-2xl font-bold font-headline text-foreground">
-            PantryPal
+            Cook's Compass
           </span>
         </Link>
         <nav className="flex items-center gap-2 sm:gap-4 text-sm font-medium">

@@ -13,7 +13,7 @@ const playfairDisplay = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: 'PantryPal',
+  title: "Cook's Compass",
   description: 'Find recipes with ingredients you have on hand.',
 };
 

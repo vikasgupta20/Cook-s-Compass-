@@ -13,7 +13,7 @@ export function useSearchHistory() {
   const { toast } = useToast();
 
   const getHistoryKey = useCallback(() => {
-    return user ? `pantrypal_search_history_${user.uid}` : null;
+    return user ? `cookscompass_search_history_${user.uid}` : null;
   }, [user]);
 
   useEffect(() => {

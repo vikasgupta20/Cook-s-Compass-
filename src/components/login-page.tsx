@@ -93,7 +93,7 @@ export function LoginPage() {
       <Card className="w-full max-w-md shadow-2xl">
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-headline">
-            Welcome to PantryPal
+            Welcome to Cook's Compass
           </CardTitle>
           <CardDescription>
             Sign in or create an account to get started
