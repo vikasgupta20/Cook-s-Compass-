@@ -49,6 +49,7 @@ export async function searchRecipes(ingredients: string): Promise<{ data: Recipe
     ingredients,
     number: '12',
     ranking: '1',
+    ignorePantry: 'true',
   });
 }
 
